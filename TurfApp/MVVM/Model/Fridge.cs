@@ -1,6 +1,6 @@
 ﻿using SQLite;
-using System.Diagnostics.CodeAnalysis;
-using TurfApp.MVVM.Model;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace TurfApp.MVVM.Model
 {

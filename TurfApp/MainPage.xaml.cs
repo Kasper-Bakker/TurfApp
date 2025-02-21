@@ -1,25 +1,30 @@
-﻿namespace TurfApp
+﻿using SQLiteBrowser;
+using System.IO;
+
+namespace TurfApp
 {
-    public partial class MainPage : ContentPage
-    {
-        int count = 0;
+	public partial class MainPage : ContentPage
+	{
+		public MainPage()
+		{
+			InitializeComponent();
+		}
 
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+		private async void OnViewOrDeleteParticipantsClicked(object sender, EventArgs e)
+		{
+			await Navigation.PushAsync(new TurfApp.MVVM.View.UsersPage());
+		}
 
-        private void OnCounterClicked(object sender, EventArgs e)
-        {
-            count++;
+		private async void OpenDatabaseBrowser(object sender, EventArgs e)
+		{
+			await Navigation.PushAsync(new DatabaseBrowserPage(Path.Combine(FileSystem.AppDataDirectory, "TurfApp.db")));
+		}
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+		private async void OnLogoutClicked(object sender, EventArgs e)
+		{
+			App.CurrentUser = null;
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
-        }
-    }
-
+			Application.Current.MainPage = new NavigationPage(new TurfApp.MVVM.View.StartPage());
+		}
+	}
 }
