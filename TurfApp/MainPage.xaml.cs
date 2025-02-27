@@ -24,7 +24,10 @@ namespace TurfApp
 		{
 			App.CurrentUser = null;
 
+			await Navigation.PushAsync(new TurfApp.MVVM.View.StartPage());
+
 			Application.Current.MainPage = new NavigationPage(new TurfApp.MVVM.View.StartPage());
 		}
+
 	}
 }

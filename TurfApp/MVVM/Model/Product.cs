@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace TurfApp.MVVM.Model
 {
-	public class Product
+	public class Product 
 	{
 		[PrimaryKey, AutoIncrement]
 		public int Id { get; set; }

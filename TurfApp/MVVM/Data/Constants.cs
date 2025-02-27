@@ -84,11 +84,11 @@ namespace TurfApp.MVVM.Data
 			try
 			{
 
-				var allParticipants = await _database.Table<User>().ToListAsync();
-				foreach (var participant in allParticipants)
+				var allUsers = await _database.Table<User>().ToListAsync();
+				foreach (var user in allUsers)
 				{
-					participant.IsActive = false;
-					await _database.UpdateAsync(participant);
+					user.IsActive = false;
+					await _database.UpdateAsync(user);
 				}
 
 

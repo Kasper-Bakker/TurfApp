@@ -1,0 +1,37 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TurfApp.MVVM.View.AddProductPage"
+             Title="Product Toevoegen">
+
+    <VerticalStackLayout Padding="20">
+        <Label Text="Voeg een product toe"
+               FontSize="24"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+
+        <Entry x:Name="CategoryEntry"
+               Placeholder="Categorie (bijv. Bier, Frisdrank)"
+               Margin="5"/>
+
+        <Entry x:Name="ProductNameEntry"
+               Placeholder="Productnaam (bijv. Heineken)"
+               Margin="5"/>
+
+        <Entry x:Name="ProductStockEntry"
+               Placeholder="Aantal"
+               Keyboard="Numeric"
+               Margin="5"/>
+
+        <Entry x:Name="PricePerUnitEntry"
+               Placeholder="Prijs (€)"
+               Keyboard="Numeric"
+               Margin="5"/>
+
+        <Button Text="Opslaan"
+                Clicked="OnSaveClicked"
+                BackgroundColor="DarkBlue"
+                TextColor="White"
+                CornerRadius="10"
+                Margin="10"/>
+    </VerticalStackLayout>
+</ContentPage>

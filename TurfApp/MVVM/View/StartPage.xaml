@@ -5,22 +5,22 @@
              Title="TurfApp"
              BackgroundColor="{DynamicResource AppBackgroundColor}">
     <VerticalStackLayout Padding="20" Spacing="30" VerticalOptions="Center">
-        <Image Source="turfapplogo.png" 
-               HeightRequest="150" 
-               WidthRequest="150" 
+        <Image Source="appfoto.png" 
+               HeightRequest="450" 
+               WidthRequest="450" 
                HorizontalOptions="Center" />
 
         <Label Text="Welkom bij TurfApp" FontSize="24" HorizontalOptions="Center" />
 
         <Button Text="Inloggen"
                 Clicked="OnLoginButtonClicked"
-                BackgroundColor="DarkCyan"
+                BackgroundColor="DarkBlue"
                 TextColor="White"
                 CornerRadius="8" />
 
         <Button Text="Registreren"
                 Clicked="OnRegisterButtonClicked"
-                BackgroundColor="DarkCyan"
+                BackgroundColor="DarkBlue"
                 TextColor="White"
                 CornerRadius="8" />
     </VerticalStackLayout>
