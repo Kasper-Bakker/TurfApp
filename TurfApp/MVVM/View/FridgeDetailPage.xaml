@@ -15,7 +15,15 @@
                             <Label Text=" - " FontSize="18" />
                             <Label Text="{Binding Stock}" FontSize="18" />
                             <Label Text=" st. - " FontSize="18" />
-                            <Label Text="{Binding PricePerUnit, StringFormat='€ {0:0.00}'}" FontSize="18"/>
+                            <Label Text="{Binding PricePerUnit, StringFormat='€ {0:0.00}'}" FontSize="18" TextColor="Green"/>
+
+                            <Button Text="Pak" 
+                                    Clicked="OnTakeProductClicked"
+                                    BackgroundColor="Red"
+                                    TextColor="White"
+                                    FontSize="14"
+                                    Padding="5"
+                                    Margin="5"/>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

@@ -23,5 +23,7 @@ namespace TurfApp.MVVM.Model
 
 		[NotNull]
 		public int FridgeId { get; set; }
+
+		public int MinimumStock { get; set; } = 5;
 	}
 }

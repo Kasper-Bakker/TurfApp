@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using TurfApp.MVVM.Data;
 using TurfApp.MVVM.Model;
+using TurfApp.MVVM.ViewModel;
 
 namespace TurfApp.MVVM.View
 {
@@ -42,5 +43,32 @@ namespace TurfApp.MVVM.View
 			await _database.AddAsync(newProduct);
 			LoadProducts();
 		}
+
+		private async void OnTakeProductClicked(object sender, EventArgs e)
+		{
+			if (sender is Button button && button.BindingContext is Product product)
+			{
+				if (product.Stock > 0)
+				{
+					bool isConfirmed = await DisplayAlert("Bevestiging",
+						$"Wil je een {product.Name} pakken?", "Ja", "Annuleren");
+
+					if (isConfirmed)
+					{
+						product.Stock--;
+						await _database.UpdateAsync(product);
+						LoadProducts();
+
+						var shoppingListViewModel = new ShoppingListViewModel();
+						await shoppingListViewModel.UpdateShoppingList();
+					}
+				}
+				else
+				{
+					await DisplayAlert("Leeg", $"{product.Name} is op!", "OK");
+				}
+			}
+		}
+
 	}
 }
