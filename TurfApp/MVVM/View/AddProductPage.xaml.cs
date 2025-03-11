@@ -1,49 +1,60 @@
-using Microsoft.Maui.Controls;
 using TurfApp.MVVM.Model;
-using TurfApp.MVVM.Data;
-using System;
-using System.Threading.Tasks;
 
 namespace TurfApp.MVVM.View
 {
 	public partial class AddProductPage : ContentPage
 	{
-		private readonly FridgePage _fridgePage;
-		private readonly Constants _database;
+		private readonly FridgeDetailPage _fridgePage;
+		private int _fridgeId;
 
-		public AddProductPage(FridgePage fridgePage, Constants database)
+		public AddProductPage(FridgeDetailPage fridgePage, int fridgeId)
 		{
 			InitializeComponent();
 			_fridgePage = fridgePage;
-			_database = database;
+			_fridgeId = fridgeId;
+
+			ProductStockEntry.TextChanged += OnPriceOrStockChanged;
+			TotalPriceEntry.TextChanged += OnPriceOrStockChanged;
 		}
 
-		async void OnSaveClicked(object sender, EventArgs e)
+		private void OnPriceOrStockChanged(object sender, EventArgs e)
 		{
-			string category = CategoryEntry.Text;
-			string name = ProductNameEntry.Text;
 			bool isStockValid = int.TryParse(ProductStockEntry.Text, out int stock);
-			bool isPriceValid = decimal.TryParse(PricePerUnitEntry.Text, out decimal price);
+			bool isTotalPriceValid = decimal.TryParse(TotalPriceEntry.Text, out decimal totalPrice);
 
-			if (!string.IsNullOrWhiteSpace(category) &&
-				!string.IsNullOrWhiteSpace(name) &&
-				isStockValid && isPriceValid)
+			if (isStockValid && isTotalPriceValid && stock > 0)
 			{
-				var newProduct = new Product
-				{
-					Category = category,
-					Name = name,
-					Stock = stock,
-					PricePerUnit = price
-				};
-
-				await _fridgePage.AddProduct(newProduct);
-				await Navigation.PopAsync();
+				decimal pricePerUnit = totalPrice / stock;
+				ProductPriceEntry.Text = pricePerUnit.ToString("0.00");
 			}
 			else
 			{
-				await DisplayAlert("Fout", "Voer een geldige categorie, naam, aantal en prijs in.", "OK");
+				ProductPriceEntry.Text = string.Empty; 
 			}
+		}
+
+		private async void OnSaveClicked(object sender, EventArgs e)
+		{
+			if (string.IsNullOrWhiteSpace(ProductNameEntry.Text) ||
+				string.IsNullOrWhiteSpace(ProductCategoryEntry.Text) ||
+				!int.TryParse(ProductStockEntry.Text, out int stock) ||
+				!decimal.TryParse(ProductPriceEntry.Text, out decimal price))
+			{
+				await DisplayAlert("Fout", "Vul alle velden correct in.", "OK");
+				return;
+			}
+
+			var newProduct = new Product
+			{
+				FridgeId = _fridgeId,
+				Name = ProductNameEntry.Text,
+				Category = ProductCategoryEntry.Text,
+				Stock = stock,
+				PricePerUnit = price
+			};
+
+			await _fridgePage.AddProduct(newProduct);
+			await Navigation.PopAsync();
 		}
 	}
 }

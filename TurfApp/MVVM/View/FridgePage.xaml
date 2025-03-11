@@ -1,38 +1,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TurfApp.MVVM.View.FridgePage"
-             Title="Koelkast Overzicht">
+             Title="Selecteer een Koelkast">
 
-    <VerticalStackLayout Padding="20">
-        <Label Text="Koelkast overzicht"
-               FontSize="24"
-               FontAttributes="Bold"
-               HorizontalOptions="Center" />
+    <VerticalStackLayout Padding="20" Spacing="10">
+        <Label Text="Selecteer een koelkast" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
 
-        <ListView ItemsSource="{Binding Products}"
-                  HasUnevenRows="True">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Padding="10">
-                            <Label Text="{Binding Category}" FontSize="14" FontAttributes="Bold"/>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="{Binding Name}" FontSize="18"/>
-                                <Label Text="{Binding Stock}" FontSize="18" 
-                                       HorizontalOptions="EndAndExpand"/>
-                            </StackLayout>
-                            <Label Text="{Binding PricePerUnit, StringFormat='€{0:F2}'}" FontSize="14" />
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <Button Text="Product Toevoegen"
-                Clicked="OnAddProductClicked"
-                BackgroundColor="DarkBlue"
-                TextColor="White"
-                CornerRadius="10"
-                Margin="10"/>
+        <Button Text="Koelkast 1" CommandParameter="1" Clicked="OpenFridgePage" BackgroundColor="DarkBlue" TextColor="White"/>
+        <Button Text="Koelkast 2" CommandParameter="2" Clicked="OpenFridgePage" BackgroundColor="DarkBlue" TextColor="White"/>
+        <Button Text="Koelkast 3" CommandParameter="3" Clicked="OpenFridgePage" BackgroundColor="DarkBlue" TextColor="White"/>
     </VerticalStackLayout>
 </ContentPage>

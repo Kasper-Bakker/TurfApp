@@ -9,25 +9,13 @@
                FontAttributes="Bold"
                HorizontalOptions="Center" />
 
-        <Entry x:Name="CategoryEntry"
-               Placeholder="Categorie (bijv. Bier, Frisdrank)"
-               Margin="5"/>
+        <Entry x:Name="ProductNameEntry" Placeholder="Productnaam" Margin="5"/>
+        <Entry x:Name="ProductCategoryEntry" Placeholder="Categorie" Margin="5"/>
+        <Entry x:Name="ProductStockEntry" Placeholder="Aantal flesjes" Keyboard="Numeric" Margin="5"/>
+        <Entry x:Name="TotalPriceEntry" Placeholder="Totale prijs (€)" Keyboard="Numeric" Margin="5"/>
+        <Entry x:Name="ProductPriceEntry" Placeholder="Prijs per flesje (€)" Keyboard="Numeric" IsReadOnly="True" Margin="5"/>
 
-        <Entry x:Name="ProductNameEntry"
-               Placeholder="Productnaam (bijv. Heineken)"
-               Margin="5"/>
-
-        <Entry x:Name="ProductStockEntry"
-               Placeholder="Aantal"
-               Keyboard="Numeric"
-               Margin="5"/>
-
-        <Entry x:Name="PricePerUnitEntry"
-               Placeholder="Prijs (€)"
-               Keyboard="Numeric"
-               Margin="5"/>
-
-        <Button Text="Opslaan"
+        <Button Text="Toevoegen"
                 Clicked="OnSaveClicked"
                 BackgroundColor="DarkBlue"
                 TextColor="White"

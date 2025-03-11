@@ -15,9 +15,17 @@
                 HorizontalOptions="Fill"
                 VerticalOptions="Center" />
 
+        <Button Text="Koelkast Toevoegen"
+                Clicked="OnAddFridgeButtonClicked"
+                BackgroundColor="Green"
+                TextColor="White"
+                CornerRadius="10"
+                Margin="10"/>
+
+
         <Button Text="Open Database Browser" 
                 Clicked="OpenDatabaseBrowser" 
-                BackgroundColor="DarkCyan" 
+                BackgroundColor="DarkBlue" 
                 TextColor="White" 
                 CornerRadius="8"
                 HorizontalOptions="Fill"

@@ -1,16 +1,19 @@
 ﻿using System.Windows.Input;
 using TurfApp.MVVM.View;
-using TurfApp.MVVM.Data;
+using TurfApp.MVVM.Model;
+using System.Collections.ObjectModel;
 
 namespace TurfApp.MVVM.ViewModel
 {
 	public class HomePageViewModel
 	{
 		public ICommand NavigateCommand { get; }
+		private ObservableCollection<Fridge> _fridges;
 
 		public HomePageViewModel()
 		{
 			NavigateCommand = new Command<string>(Navigate);
+			_fridges = new ObservableCollection<Fridge>();
 		}
 
 		private async void Navigate(string pageName)
@@ -18,7 +21,7 @@ namespace TurfApp.MVVM.ViewModel
 			Page page = pageName switch
 			{
 				"HomePage" => new HomePage(),
-				"FridgePage" => new FridgePage(App.Database),
+				"FridgePage" => new FridgePage(),
 				"ShoppingListPage" => new ShoppingListPage(),
 				_ => null
 			};

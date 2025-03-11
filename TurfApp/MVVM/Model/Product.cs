@@ -20,5 +20,8 @@ namespace TurfApp.MVVM.Model
 
 		[NotNull]
 		public decimal PricePerUnit { get; set; }
+
+		[NotNull]
+		public int FridgeId { get; set; }
 	}
 }

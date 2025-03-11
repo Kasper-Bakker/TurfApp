@@ -65,6 +65,15 @@ namespace TurfApp.MVVM.Data
 			return _database.FindAsync<T>(id);
 		}
 
+		public async Task<List<Fridge>> GetFridgesAsync()
+		{
+			return await _database.Table<Fridge>().ToListAsync();
+		}
+
+		public async Task AddFridgeAsync(Fridge fridge)
+		{
+			await _database.InsertAsync(fridge);
+		}
 		public User GetActiveUser()
 		{
 			try

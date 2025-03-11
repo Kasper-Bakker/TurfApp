@@ -1,5 +1,7 @@
 ﻿using SQLiteBrowser;
 using System.IO;
+using TurfApp.MVVM.View;
+using TurfApp.MVVM.Data;
 
 namespace TurfApp
 {
@@ -13,6 +15,11 @@ namespace TurfApp
 		private async void OnViewOrDeleteParticipantsClicked(object sender, EventArgs e)
 		{
 			await Navigation.PushAsync(new TurfApp.MVVM.View.UsersPage());
+		}
+
+		private async void OnAddFridgeButtonClicked(object sender, EventArgs e)
+		{
+			await Navigation.PushAsync(new AddFridgePage());
 		}
 
 		private async void OpenDatabaseBrowser(object sender, EventArgs e)
