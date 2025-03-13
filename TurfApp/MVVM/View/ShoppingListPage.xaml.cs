@@ -1,9 +1,16 @@
 using TurfApp.MVVM.ViewModel;
 
-public class ShoppingListPage : ContentPage
+namespace TurfApp.MVVM.View
 {
-	public ShoppingListPage()
+	public partial class ShoppingListPage : ContentPage
 	{
-		BindingContext = new ShoppingListViewModel();
+		private readonly ShoppingListViewModel _viewModel;
+
+		public ShoppingListPage()
+		{
+			InitializeComponent();
+			_viewModel = new ShoppingListViewModel();
+			BindingContext = _viewModel;
+		}
 	}
 }

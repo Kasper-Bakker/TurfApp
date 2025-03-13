@@ -23,6 +23,7 @@ namespace TurfApp.MVVM.ViewModel
 				"HomePage" => new HomePage(),
 				"FridgePage" => new FridgePage(),
 				"ShoppingListPage" => new ShoppingListPage(),
+				"CheckPage" => new CheckPage(),
 				_ => null
 			};
 

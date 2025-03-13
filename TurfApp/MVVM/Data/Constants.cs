@@ -25,6 +25,7 @@ namespace TurfApp.MVVM.Data
 				_database.CreateTableAsync<ShoppingList>().Wait();
 				_database.CreateTableAsync<StudentHouse>().Wait();
 				_database.CreateTableAsync<User>().Wait();
+				_database.CreateTableAsync<UserTransaction>().Wait();
 
 
 			}

@@ -59,8 +59,11 @@ namespace TurfApp.MVVM.View
 						await _database.UpdateAsync(product);
 						LoadProducts();
 
+						var checkPageViewModel = new CheckPageViewModel();
+						await checkPageViewModel.AddProductToUser(1, product); 
+
 						var shoppingListViewModel = new ShoppingListViewModel();
-						await shoppingListViewModel.UpdateShoppingList();
+						await shoppingListViewModel.AddToShoppingList(product);
 					}
 				}
 				else

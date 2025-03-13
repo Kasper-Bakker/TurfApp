@@ -28,5 +28,10 @@
                      CommandParameter="ShoppingListPage"
                      HorizontalOptions="Center" 
                      VerticalOptions="Center" />
+        <ImageButton Grid.Column="3" Source="check.png" 
+                     Command="{Binding NavigateCommand}" 
+                     CommandParameter="CheckPage"
+                     HorizontalOptions="Center" 
+                     VerticalOptions="Center" />
     </Grid>
 </ContentView>
