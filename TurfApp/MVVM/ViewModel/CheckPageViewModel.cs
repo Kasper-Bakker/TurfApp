@@ -1,13 +1,40 @@
 ﻿using System.Collections.ObjectModel;
-using TurfApp.MVVM.Data;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Linq;
+using System.Threading.Tasks;
 using TurfApp.MVVM.Model;
+using TurfApp.MVVM.Data;
 
 namespace TurfApp.MVVM.ViewModel
 {
-	public class CheckPageViewModel
+	public class CheckPageViewModel : INotifyPropertyChanged
 	{
 		private readonly Constants _database;
-		public ObservableCollection<UserTransaction> Transactions { get; set; } = new();
+		private ObservableCollection<UserTransaction> _transactions = new();
+		private decimal _totalAmount;
+
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		public ObservableCollection<UserTransaction> Transactions
+		{
+			get => _transactions;
+			set
+			{
+				_transactions = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public decimal TotalAmount
+		{
+			get => _totalAmount;
+			set
+			{
+				_totalAmount = value;
+				OnPropertyChanged();
+			}
+		}
 
 		public CheckPageViewModel()
 		{
@@ -17,38 +44,13 @@ namespace TurfApp.MVVM.ViewModel
 
 		private async void LoadTransactions()
 		{
-			var transactions = await _database.GetAllAsync<UserTransaction>();
-			Transactions.Clear();
-
-			foreach (var transaction in transactions)
-			{
-				var product = await _database.GetAsync<Product>(transaction.ProductId);
-				if (product != null)
-				{
-					transaction.ProductName = product.Name;
-					Transactions.Add(transaction);
-				}
-			}
+			await RefreshTransactions();
 		}
 
-		public async Task RefreshTransactions()
+		public async Task AddProductToCheck(Product product)
 		{
-			var transactions = await _database.GetAllAsync<UserTransaction>();
-			Transactions.Clear();
-
-			foreach (var transaction in transactions)
-			{
-				var product = await _database.GetAsync<Product>(transaction.ProductId);
-				if (product != null)
-				{
-					Transactions.Add(transaction);
-				}
-			}
-		}
-
-		public async Task AddProductToUser(int userId, Product product)
-		{
-			var existingTransaction = Transactions.FirstOrDefault(t => t.UserId == userId && t.ProductId == product.Id);
+			var allTransactions = await _database.GetAllAsync<UserTransaction>();
+			var existingTransaction = allTransactions.FirstOrDefault(t => t.ProductId == product.Id);
 
 			if (existingTransaction != null)
 			{
@@ -59,20 +61,52 @@ namespace TurfApp.MVVM.ViewModel
 			{
 				var newTransaction = new UserTransaction
 				{
-					UserId = userId,
 					ProductId = product.Id,
+					ProductName = product.Name,
 					Quantity = 1,
 					PricePerUnit = product.PricePerUnit
 				};
+
 				await _database.AddAsync(newTransaction);
-				Transactions.Add(newTransaction);
 			}
+
+			await RefreshTransactions();
 		}
-		public decimal GetTotalAmount(int userId)
+
+		public async Task RefreshTransactions()
 		{
-			return Transactions
-				.Where(t => t.UserId == userId)
-				.Sum(t => t.TotalPrice);
+			var transactions = await _database.GetAllAsync<UserTransaction>();
+			Transactions.Clear();
+			decimal total = 0;
+
+			foreach (var transaction in transactions)
+			{
+				if (string.IsNullOrEmpty(transaction.ProductName))
+				{
+					var product = await _database.GetAsync<Product>(transaction.ProductId);
+					if (product != null)
+					{
+						transaction.ProductName = product.Name;
+						await _database.UpdateAsync(transaction);
+					}
+					else
+					{
+						continue;
+					}
+				}
+
+				Transactions.Add(transaction);
+				total += transaction.Quantity * transaction.PricePerUnit;
+			}
+
+			TotalAmount = total;
+			OnPropertyChanged(nameof(Transactions));
+			OnPropertyChanged(nameof(TotalAmount));
+		}
+
+		private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }

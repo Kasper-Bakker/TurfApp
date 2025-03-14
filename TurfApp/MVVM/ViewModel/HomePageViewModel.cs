@@ -16,6 +16,12 @@ namespace TurfApp.MVVM.ViewModel
 			_fridges = new ObservableCollection<Fridge>();
 		}
 
+		private int GetCurrentUserId()
+		{
+			return 1;
+		}
+
+
 		private async void Navigate(string pageName)
 		{
 			Page page = pageName switch
@@ -23,7 +29,7 @@ namespace TurfApp.MVVM.ViewModel
 				"HomePage" => new HomePage(),
 				"FridgePage" => new FridgePage(),
 				"ShoppingListPage" => new ShoppingListPage(),
-				"CheckPage" => new CheckPage(),
+				"CheckPage" => new CheckPage(GetCurrentUserId()),
 				_ => null
 			};
 

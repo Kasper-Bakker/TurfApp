@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using TurfApp.MVVM.Data;
 using TurfApp.MVVM.Model;
 using TurfApp.MVVM.ViewModel;
@@ -16,7 +16,6 @@ namespace TurfApp.MVVM.View
 			InitializeComponent();
 			_database = App.Database;
 			_fridgeId = fridgeId;
-
 			ProductListView.ItemsSource = _products;
 			LoadProducts();
 		}
@@ -25,7 +24,6 @@ namespace TurfApp.MVVM.View
 		{
 			var products = await _database.GetAllAsync<Product>();
 			_products.Clear();
-
 			foreach (var product in products.Where(p => p.FridgeId == _fridgeId))
 			{
 				_products.Add(product);
@@ -59,11 +57,9 @@ namespace TurfApp.MVVM.View
 						await _database.UpdateAsync(product);
 						LoadProducts();
 
-						var checkPageViewModel = new CheckPageViewModel();
-						await checkPageViewModel.AddProductToUser(1, product); 
-
-						var shoppingListViewModel = new ShoppingListViewModel();
-						await shoppingListViewModel.AddToShoppingList(product);
+						var checkVM = new CheckPageViewModel();
+						await checkVM.AddProductToCheck(product);
+						await checkVM.RefreshTransactions();
 					}
 				}
 				else
@@ -72,6 +68,5 @@ namespace TurfApp.MVVM.View
 				}
 			}
 		}
-
 	}
 }

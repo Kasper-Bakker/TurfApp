@@ -10,25 +10,22 @@ namespace TurfApp.MVVM.Model
 		public int Id { get; set; }
 
 		[NotNull]
-		public int UserId { get; set; } 
+		public int UserId { get; set; }  
 
 		[NotNull]
-		public int ProductId { get; set; } 
+		public int ProductId { get; set; }
 
 		[NotNull]
-		public int Quantity { get; set; } 
+		public int Quantity { get; set; }
 
 		[NotNull]
 		public decimal PricePerUnit { get; set; }
 
 		[NotNull]
-		public string ProductName { get; set; }
-		public decimal TotalPrice => Quantity * PricePerUnit; 
+		public string ProductName { get; set; } = string.Empty;
 
-		public event PropertyChangedEventHandler PropertyChanged;
-		protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
+		public decimal TotalPrice => Quantity * PricePerUnit;
+
+		public event PropertyChangedEventHandler? PropertyChanged;
 	}
 }

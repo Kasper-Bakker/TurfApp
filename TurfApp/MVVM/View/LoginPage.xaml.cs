@@ -27,6 +27,7 @@ namespace TurfApp.MVVM.View
 				if (email == App.AdminUser.Email && password == App.AdminUser.Password)
 				{
 					App.CurrentUser = App.AdminUser;
+					Preferences.Set("CurrentUserId", App.AdminUser.Id);
 					await DisplayAlert("Succes", "Admin succesvol ingelogd!", "OK");
 
 					Application.Current.MainPage = new NavigationPage(new MainPage());
@@ -40,6 +41,7 @@ namespace TurfApp.MVVM.View
 				{
 					await App.Database.SetActiveUser(matchingUser.Id);
 					App.CurrentUser = matchingUser;
+					Preferences.Set("CurrentUserId", matchingUser.Id);
 					await DisplayAlert("Succes", "U bent succesvol ingelogd!", "OK");
 
 					Application.Current.MainPage = new NavigationPage(new HomePage());
