@@ -1,15 +1,15 @@
-using Microsoft.Maui.Controls;
 using TurfApp.MVVM.Model;
-using System;
-using System.Threading.Tasks;
 
 namespace TurfApp.MVVM.View
 {
 	public partial class AddFridgePage : ContentPage
 	{
-		public AddFridgePage()
+		private FridgePage _fridgePage;
+
+		public AddFridgePage(FridgePage fridgePage = null)
 		{
 			InitializeComponent();
+			_fridgePage = fridgePage;
 		}
 
 		private async void OnSaveClicked(object sender, EventArgs e)
@@ -21,9 +21,12 @@ namespace TurfApp.MVVM.View
 			}
 
 			var newFridge = new Fridge { Name = FridgeNameEntry.Text };
-			await App.Database.AddFridgeAsync(newFridge);
+			await App.Database.AddAsync(newFridge);
 
 			await DisplayAlert("Succes", "Koelkast toegevoegd!", "OK");
+
+			_fridgePage?.LoadFridges();
+
 			await Navigation.PopAsync();
 		}
 	}

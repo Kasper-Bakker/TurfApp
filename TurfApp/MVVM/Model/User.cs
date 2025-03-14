@@ -19,6 +19,8 @@ namespace TurfApp.MVVM.Model
 		[NotNull]
 		public string Password { get; set; }
 
+		public string ProfilePicture { get; set; }
+
 		public decimal Balance { get; set; }
 
 		public bool IsActive { get; set; }

@@ -1,7 +1,8 @@
-﻿using SQLiteBrowser;
+﻿using System;
 using System.IO;
 using TurfApp.MVVM.View;
 using TurfApp.MVVM.Data;
+using SQLiteBrowser;
 
 namespace TurfApp
 {
@@ -14,7 +15,7 @@ namespace TurfApp
 
 		private async void OnViewOrDeleteParticipantsClicked(object sender, EventArgs e)
 		{
-			await Navigation.PushAsync(new TurfApp.MVVM.View.UsersPage());
+			await Navigation.PushAsync(new UsersPage());
 		}
 
 		private async void OnAddFridgeButtonClicked(object sender, EventArgs e)
@@ -30,11 +31,7 @@ namespace TurfApp
 		private async void OnLogoutClicked(object sender, EventArgs e)
 		{
 			App.CurrentUser = null;
-
-			await Navigation.PushAsync(new TurfApp.MVVM.View.StartPage());
-
-			Application.Current.MainPage = new NavigationPage(new TurfApp.MVVM.View.StartPage());
+			Application.Current.MainPage = new NavigationPage(new StartPage());
 		}
-
 	}
 }

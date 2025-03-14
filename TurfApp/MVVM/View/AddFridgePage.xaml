@@ -10,7 +10,7 @@
                HorizontalOptions="Center" />
 
         <Entry x:Name="FridgeNameEntry"
-               Placeholder="Koelkastnaam (bijv. Keuken Koelkast)"
+               Placeholder="Koelkastnaam"
                Margin="5"/>
 
         <Button Text="Toevoegen"

@@ -33,5 +33,10 @@
                      CommandParameter="CheckPage"
                      HorizontalOptions="Center" 
                      VerticalOptions="Center" />
+        <ImageButton Grid.Column="4" Source="account_icon.png" 
+                     Command="{Binding NavigateCommand}" 
+                     CommandParameter="UserProfilePage"
+                     HorizontalOptions="Center" 
+                     VerticalOptions="Center" />
     </Grid>
 </ContentView>

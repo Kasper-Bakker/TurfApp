@@ -6,8 +6,16 @@
     <VerticalStackLayout Padding="20" Spacing="10">
         <Label Text="Selecteer een koelkast" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
 
-        <Button Text="Koelkast 1" CommandParameter="1" Clicked="OpenFridgePage" BackgroundColor="DarkBlue" TextColor="White"/>
-        <Button Text="Koelkast 2" CommandParameter="2" Clicked="OpenFridgePage" BackgroundColor="DarkBlue" TextColor="White"/>
-        <Button Text="Koelkast 3" CommandParameter="3" Clicked="OpenFridgePage" BackgroundColor="DarkBlue" TextColor="White"/>
+        <ListView x:Name="FridgeListView" ItemTapped="OpenFridgePage">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Padding="10">
+                            <Label Text="{Binding Name}" FontSize="18" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </VerticalStackLayout>
 </ContentPage>
