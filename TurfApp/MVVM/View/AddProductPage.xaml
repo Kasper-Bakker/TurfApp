@@ -5,21 +5,47 @@
 
     <VerticalStackLayout Padding="20">
         <Label Text="Voeg een product toe"
-               FontSize="24"
-               FontAttributes="Bold"
-               HorizontalOptions="Center" />
+           FontSize="24"
+           FontAttributes="Bold"
+           HorizontalOptions="Center" />
 
-        <Entry x:Name="ProductNameEntry" Placeholder="Productnaam" Margin="5"/>
-        <Entry x:Name="ProductCategoryEntry" Placeholder="Categorie" Margin="5"/>
-        <Entry x:Name="ProductStockEntry" Placeholder="Aantal flesjes" Keyboard="Numeric" Margin="5"/>
-        <Entry x:Name="TotalPriceEntry" Placeholder="Totale prijs (€)" Keyboard="Numeric" Margin="5"/>
-        <Entry x:Name="ProductPriceEntry" Placeholder="Prijs per flesje (€)" Keyboard="Numeric" IsReadOnly="True" Margin="5"/>
+        <Picker x:Name="ProductPicker"
+            Title="Kies een bestaand product of voeg een nieuw toe"
+            SelectedIndexChanged="OnProductSelected"
+            Margin="5"/>
+
+        <Entry x:Name="ProductNameEntry"
+           Placeholder="Productnaam"
+           Margin="5"
+           IsEnabled="False" />
+
+        <Entry x:Name="ProductCategoryEntry"
+           Placeholder="Categorie"
+           Margin="5"
+           IsEnabled="False" />
+
+        <Entry x:Name="ProductStockEntry"
+           Placeholder="Aantal flesjes"
+           Keyboard="Numeric"
+           Margin="5"/>
+
+        <Entry x:Name="TotalPriceEntry"
+           Placeholder="Totale prijs (€)"
+           Keyboard="Numeric"
+           Margin="5"/>
+
+        <Entry x:Name="ProductPriceEntry"
+           Placeholder="Prijs per flesje (€)"
+           Keyboard="Numeric"
+           IsReadOnly="True"
+           Margin="5"/>
 
         <Button Text="Toevoegen"
-                Clicked="OnSaveClicked"
-                BackgroundColor="DarkBlue"
-                TextColor="White"
-                CornerRadius="10"
-                Margin="10"/>
+            Clicked="OnSaveClicked"
+            BackgroundColor="DarkBlue"
+            TextColor="White"
+            CornerRadius="10"
+            Margin="10"/>
     </VerticalStackLayout>
+
 </ContentPage>

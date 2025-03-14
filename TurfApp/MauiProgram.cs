@@ -1,7 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Microsoft.Maui.ApplicationModel;
+using Plugin.LocalNotification;
 using TurfApp.MVVM.View;
+
+#if ANDROID
+using Android;
+using Android.App;
+using Android.OS;
+using Android.Content;
+using Android.Content.PM;
+#endif
 
 namespace TurfApp
 {
@@ -12,6 +21,7 @@ namespace TurfApp
 			var builder = MauiApp.CreateBuilder();
 			builder
 				.UseMauiApp<App>()
+				.UseLocalNotification()
 				.ConfigureFonts(fonts =>
 				{
 					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -26,7 +36,11 @@ namespace TurfApp
 			{
 				events.AddAndroid(android => android.OnCreate((activity, bundle) =>
 				{
-					RequestCameraPermission();
+					MainThread.BeginInvokeOnMainThread(async () =>
+					{
+						await RequestCameraPermission();
+						await RequestNotificationPermission(activity);
+					});
 				}));
 			});
 #endif
@@ -38,7 +52,7 @@ namespace TurfApp
 			return builder.Build();
 		}
 
-		private static async void RequestCameraPermission()
+		private static async Task RequestCameraPermission()
 		{
 			var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
 
@@ -47,5 +61,18 @@ namespace TurfApp
 				status = await Permissions.RequestAsync<Permissions.Camera>();
 			}
 		}
+
+#if ANDROID
+		private static async Task RequestNotificationPermission(Activity activity)
+		{
+			if (Build.VERSION.SdkInt >= BuildVersionCodes.Tiramisu) 
+			{
+				if (activity.CheckSelfPermission(Manifest.Permission.PostNotifications) != Permission.Granted)
+				{
+					activity.RequestPermissions(new string[] { Manifest.Permission.PostNotifications }, 0);
+				}
+			}
+		}
+#endif
 	}
 }

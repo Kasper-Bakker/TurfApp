@@ -2,6 +2,7 @@
 using TurfApp.MVVM.Data;
 using TurfApp.MVVM.Model;
 using TurfApp.MVVM.ViewModel;
+using TurfApp.MVVM.View;
 
 namespace TurfApp.MVVM.View
 {
@@ -14,7 +15,7 @@ namespace TurfApp.MVVM.View
 		public FridgeDetailPage(int fridgeId)
 		{
 			InitializeComponent();
-			_database = App.Database;
+			_database = App.Database; 
 			_fridgeId = fridgeId;
 			ProductListView.ItemsSource = _products;
 			LoadProducts();
@@ -32,7 +33,7 @@ namespace TurfApp.MVVM.View
 
 		private async void AddProductButton_Clicked(object sender, EventArgs e)
 		{
-			await Navigation.PushAsync(new AddProductPage(this, _fridgeId));
+			await Navigation.PushAsync(new AddProductPage(this, _fridgeId, _database)); 
 		}
 
 		public async Task AddProduct(Product newProduct)

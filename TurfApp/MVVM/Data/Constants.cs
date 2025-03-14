@@ -1,17 +1,17 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TurfApp.MVVM.Model;
+using Plugin.LocalNotification;
 
 namespace TurfApp.MVVM.Data
 {
 	public class Constants
 	{
 		private readonly SQLiteAsyncConnection _database;
+		private readonly HashSet<int> _notifiedProducts = new(); 
 
 		public Constants(string dbPath)
 		{
@@ -19,15 +19,12 @@ namespace TurfApp.MVVM.Data
 
 			try
 			{
-
 				_database.CreateTableAsync<Fridge>().Wait();
 				_database.CreateTableAsync<Product>().Wait();
 				_database.CreateTableAsync<ShoppingList>().Wait();
 				_database.CreateTableAsync<StudentHouse>().Wait();
 				_database.CreateTableAsync<User>().Wait();
 				_database.CreateTableAsync<UserTransaction>().Wait();
-
-
 			}
 			catch (Exception ex)
 			{
@@ -35,21 +32,35 @@ namespace TurfApp.MVVM.Data
 				Console.WriteLine($"StackTrace: {ex.StackTrace}");
 				throw;
 			}
-
 		}
+
 		public Task<List<T>> GetAllAsync<T>() where T : new()
 		{
 			return _database.Table<T>().ToListAsync();
 		}
 
-		public Task<int> AddAsync<T>(T item) where T : new()
+		public async Task<int> AddAsync<T>(T item) where T : new()
 		{
-			return _database.InsertAsync(item);
+			int result = await _database.InsertAsync(item);
+
+			if (item is Product product)
+			{
+				await CheckStockAndNotify(product);
+			}
+
+			return result;
 		}
 
-		public Task<int> UpdateAsync<T>(T item) where T : new()
+		public async Task<int> UpdateAsync<T>(T item) where T : new()
 		{
-			return _database.UpdateAsync(item);
+			int result = await _database.UpdateAsync(item);
+
+			if (item is Product product)
+			{
+				await CheckStockAndNotify(product);
+			}
+
+			return result;
 		}
 
 		public Task<int> DeleteAsync<T>(T item) where T : new()
@@ -61,6 +72,7 @@ namespace TurfApp.MVVM.Data
 		{
 			return _database.InsertAllAsync(items);
 		}
+
 		public Task<T> GetAsync<T>(int id) where T : new()
 		{
 			return _database.FindAsync<T>(id);
@@ -75,11 +87,11 @@ namespace TurfApp.MVVM.Data
 		{
 			await _database.InsertAsync(fridge);
 		}
+
 		public User GetActiveUser()
 		{
 			try
 			{
-
 				return _database.Table<User>().Where(p => p.IsActive).FirstOrDefaultAsync().Result;
 			}
 			catch (Exception ex)
@@ -93,14 +105,12 @@ namespace TurfApp.MVVM.Data
 		{
 			try
 			{
-
 				var allUsers = await _database.Table<User>().ToListAsync();
 				foreach (var user in allUsers)
 				{
 					user.IsActive = false;
 					await _database.UpdateAsync(user);
 				}
-
 
 				var activeUser = await _database.Table<User>().Where(p => p.Id == userId).FirstOrDefaultAsync();
 				if (activeUser != null)
@@ -113,6 +123,35 @@ namespace TurfApp.MVVM.Data
 			{
 				Console.WriteLine($"Error setting active user: {ex.Message}");
 			}
+		}
+
+		private async Task CheckStockAndNotify(Product product)
+		{
+			if (product.Stock <= 5)
+			{
+				if (!_notifiedProducts.Contains(product.Id))
+				{
+					SendNotification(product.Name, product.Stock);
+					_notifiedProducts.Add(product.Id); 
+				}
+			}
+			else
+			{
+				_notifiedProducts.Remove(product.Id);
+			}
+		}
+
+		private void SendNotification(string productName, int stock)
+		{
+			var notification = new NotificationRequest
+			{
+				Title = "Lage voorraad!",
+				Description = $"Product '{productName}' heeft nog maar {stock} over. Tijd om boodschappen te doen!",
+				ReturningData = "Boodschappenlijst",
+				NotificationId = new Random().Next(1000, 9999)
+			};
+
+			LocalNotificationCenter.Current.Show(notification);
 		}
 	}
 }
