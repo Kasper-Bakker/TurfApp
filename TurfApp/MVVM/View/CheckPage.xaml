@@ -21,5 +21,14 @@
 
         <Label Text="{Binding TotalAmount, StringFormat='Totaal: € {0:0.00}'}" 
                FontSize="22" FontAttributes="Bold" Padding="10"/>
+
+        <Button Text="Betaal"
+        Command="{Binding PayCommand}"
+        BackgroundColor="Green"
+        TextColor="White"
+        FontSize="18"
+        Padding="10"
+        Margin="10"/>
+
     </VerticalStackLayout>
 </ContentPage>

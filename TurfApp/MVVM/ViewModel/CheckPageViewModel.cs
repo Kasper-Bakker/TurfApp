@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using TurfApp.MVVM.Model;
 using TurfApp.MVVM.Data;
+using System.Windows.Input;
+using Microsoft.Maui.Controls;
 
 namespace TurfApp.MVVM.ViewModel
 {
@@ -36,10 +38,15 @@ namespace TurfApp.MVVM.ViewModel
 			}
 		}
 
+		public ICommand PayCommand { get; }
+
 		public CheckPageViewModel()
 		{
 			_database = App.Database;
 			LoadTransactions();
+
+			// Betaalknop
+			PayCommand = new Command(async () => await Pay());
 		}
 
 		private async void LoadTransactions()
@@ -102,6 +109,31 @@ namespace TurfApp.MVVM.ViewModel
 			TotalAmount = total;
 			OnPropertyChanged(nameof(Transactions));
 			OnPropertyChanged(nameof(TotalAmount));
+		}
+
+		public async Task Pay()
+		{
+			var confirmation = await Application.Current.MainPage.DisplayAlert(
+				"Bevestiging",
+				"Weet je zeker dat je de rekening wilt betalen?",
+				"Ja",
+				"Nee"
+			);
+
+			if (!confirmation)
+				return; 
+
+			await _database.DeleteAllAsync<UserTransaction>(); 
+			await RefreshTransactions(); 
+
+			OnPropertyChanged(nameof(Transactions));
+			OnPropertyChanged(nameof(TotalAmount));
+
+			await Application.Current.MainPage.DisplayAlert(
+				"Betaling Geslaagd",
+				"De rekening is succesvol betaald!",
+				"OK"
+			);
 		}
 
 		private void OnPropertyChanged([CallerMemberName] string propertyName = null)

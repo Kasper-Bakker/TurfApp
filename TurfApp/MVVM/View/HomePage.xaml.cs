@@ -1,14 +1,20 @@
 using SQLiteBrowser;
 using TurfApp.MVVM.ViewModel;
+using VictuzMobileApp.MVVM.Model;
+
 
 namespace TurfApp.MVVM.View;
 
 public partial class HomePage : ContentPage
 {
+	private readonly WeatherService _weatherService;
 	public HomePage()
 	{
 		InitializeComponent();
+		_weatherService = new WeatherService();
 		BindingContext = new HomePageViewModel();
+
+		LoadWeatherData();
 	}
 
 	private async void OnLogoutButtonClicked(object sender, EventArgs e)
@@ -30,5 +36,20 @@ public partial class HomePage : ContentPage
 	private async void OpenDatabaseBrowser(object sender, EventArgs e)
 	{
 		await Navigation.PushAsync(new DatabaseBrowserPage(Path.Combine(FileSystem.AppDataDirectory, "TurfApp.db")));
+	}
+
+	private async Task LoadWeatherData()
+	{
+		var weather = await _weatherService.GetWeatherAsync();
+
+		if (weather != null)
+		{
+
+			WeatherLabel.Text = $"Weer in {weather.Name}: {weather.WeatherDescription}";
+		}
+		else
+		{
+			WeatherLabel.Text = "Kan weergegevens niet ophalen.";
+		}
 	}
 }

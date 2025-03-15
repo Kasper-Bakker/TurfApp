@@ -20,5 +20,14 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <Frame BackgroundColor="LightGray" Padding="15" Margin="20, 30, 20, 0">
+            <Label x:Name="ResponsibleUserLabel"
+                   Text="Bezig met laden..."
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+        </Frame>
+
     </VerticalStackLayout>
 </ContentPage>

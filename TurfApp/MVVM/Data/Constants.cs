@@ -11,7 +11,7 @@ namespace TurfApp.MVVM.Data
 	public class Constants
 	{
 		private readonly SQLiteAsyncConnection _database;
-		private readonly HashSet<int> _notifiedProducts = new(); 
+		private readonly HashSet<int> _notifiedProducts = new();
 
 		public Constants(string dbPath)
 		{
@@ -66,6 +66,17 @@ namespace TurfApp.MVVM.Data
 		public Task<int> DeleteAsync<T>(T item) where T : new()
 		{
 			return _database.DeleteAsync(item);
+		}
+
+		public async Task DeleteAllAsync<T>() where T : new()
+		{
+			await _database.DeleteAllAsync<T>();
+		}
+
+
+		public async Task RemoveAsync<T>(T item) where T : new()
+		{
+			await _database.DeleteAsync(item);
 		}
 
 		public Task<int> AddAllAsync<T>(IEnumerable<T> items) where T : new()
@@ -132,7 +143,7 @@ namespace TurfApp.MVVM.Data
 				if (!_notifiedProducts.Contains(product.Id))
 				{
 					SendNotification(product.Name, product.Stock);
-					_notifiedProducts.Add(product.Id); 
+					_notifiedProducts.Add(product.Id);
 				}
 			}
 			else
