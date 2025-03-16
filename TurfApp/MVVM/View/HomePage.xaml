@@ -61,12 +61,6 @@
         </StackLayout>
 
         <StackLayout Grid.Row="2" Margin="10">
-            <Button Text="Open Database Browser" 
-                    Clicked="OpenDatabaseBrowser" 
-                    BackgroundColor="DarkBlue" 
-                    TextColor="White" 
-                    CornerRadius="8"
-                    HorizontalOptions="Fill" />
 
             <Button Text="Uitloggen" 
                     Clicked="OnLogoutButtonClicked" 

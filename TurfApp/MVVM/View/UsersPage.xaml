@@ -2,11 +2,29 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TurfApp.MVVM.View.UsersPage"
-             Title="UsersPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+             Title="Gebruikersbeheer">
+
+    <VerticalStackLayout Padding="10">
+        <Label Text="Gebruikerslijst"
+               FontSize="Large"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+
+        <CollectionView ItemsSource="{Binding Users}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10" ColumnDefinitions="2*,Auto">
+                        <Label Text="{Binding Name}" FontSize="Medium" Grid.Column="0" />
+                        <Button Text="Verwijder"
+                                BackgroundColor="Red"
+                                TextColor="White"
+                                Clicked="OnDeleteUser"
+                                CommandParameter="{Binding Id}"
+                                Grid.Column="1" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
+
 </ContentPage>
