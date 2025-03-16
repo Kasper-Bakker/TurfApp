@@ -34,6 +34,8 @@ namespace TurfApp.MVVM.Data
 			}
 		}
 
+		public event Action OnDatabaseUpdated;
+
 		public Task<List<T>> GetAllAsync<T>() where T : new()
 		{
 			return _database.Table<T>().ToListAsync();
@@ -60,8 +62,11 @@ namespace TurfApp.MVVM.Data
 				await CheckStockAndNotify(product);
 			}
 
+			OnDatabaseUpdated?.Invoke();
+
 			return result;
 		}
+
 
 		public Task<int> DeleteAsync<T>(T item) where T : new()
 		{

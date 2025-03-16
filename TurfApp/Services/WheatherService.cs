@@ -2,8 +2,8 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace VictuzMobileApp.MVVM.Model
-{
+namespace TurfApp.Services;
+
 	public class WeatherService
 	{
 		private const string ApiKey = "67f1e0e95abc55499524a1c20f4d8894";
@@ -44,4 +44,4 @@ namespace VictuzMobileApp.MVVM.Model
 	{
 		public double Temp { get; set; }
 	}
-}
+

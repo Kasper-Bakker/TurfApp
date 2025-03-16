@@ -10,6 +10,7 @@ namespace TurfApp.MVVM.ViewModel
 		public ICommand NavigateCommand { get; }
 		private ObservableCollection<Fridge> _fridges;
 
+
 		public HomePageViewModel()
 		{
 			NavigateCommand = new Command<string>(Navigate);
